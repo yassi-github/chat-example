@@ -61,7 +61,11 @@ func (i *interactor) ListRoom(ctx context.Context) ([]*entity.Room, error) {
 }
 
 func (i *interactor) GetRoom(ctx context.Context, id string) (*entity.Room, error) {
-	return nil, nil
+	room, err := i.roomRepository.Select(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return room, nil
 }
 
 func (i *interactor) GetPass(_ context.Context) (string, error) {

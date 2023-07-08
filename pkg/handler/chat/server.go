@@ -47,9 +47,13 @@ func (s *server) CreateRoom(ctx context.Context, req *connect.Request[proto.Crea
 }
 
 func (s *server) GetRoom(ctx context.Context, req *connect.Request[proto.GetRoomRequest]) (*connect.Response[proto.GetRoomResponse], error) {
-	// TODO: s.chatInteracter.GetRoomを実行する
+	room, err := s.chatInteractor.GetRoom(ctx, req.Msg.GetId())
+	if err != nil {
+		s.logger.ErrorCtx(ctx, "get room error", "err", err)
+		return nil, err
+	}
 	return connect.NewResponse(&proto.GetRoomResponse{
-		// TODO: Room: toProtoRoom(room)を返却する
+		Room: toProtoRoom(room),
 	}), nil
 }
 

@@ -28,7 +28,7 @@ func (r *repository) Insert(_ context.Context, room *entity.Room) error {
 }
 
 func (r *repository) Select(_ context.Context, id string) (*entity.Room, error) {
-	return nil, nil
+	return r.mapByID[id], nil
 }
 
 func (r *repository) SelectAll(_ context.Context) ([]*entity.Room, error) {
