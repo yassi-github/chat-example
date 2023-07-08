@@ -38,8 +38,22 @@ func New(
 	}
 }
 
+// 実装が必要
+
 func (i *interactor) CreateRoom(ctx context.Context, name string) (*entity.Room, error) {
-	return nil, nil
+	id, err := i.ulidGenerator.Generate()
+	room := &entity.Room{
+		ID: id,
+		Name: name,
+	}
+	if err != nil {
+		return nil, err
+	}
+	err = i.roomRepository.Insert(ctx, room)
+	if err != nil {
+		return nil, err
+	}
+	return room, nil
 }
 
 func (i *interactor) ListRoom(ctx context.Context) ([]*entity.Room, error) {

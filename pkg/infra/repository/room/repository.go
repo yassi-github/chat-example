@@ -21,6 +21,9 @@ func New() room.Repository {
 }
 
 func (r *repository) Insert(_ context.Context, room *entity.Room) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.mapByID[room.ID] = room
 	return nil
 }
 
