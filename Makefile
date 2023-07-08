@@ -21,7 +21,7 @@ buf: ## Generate protobuf codes.
 
 .PHONY: evans
 evans: ## Run evans.
-	evans --proto ./proto/healthz.proto --port 8080
+	evans --proto ./proto/chat.proto --port 8080
 
 .PHONY: run ## Serve api and front.
 run: run-api run-front
