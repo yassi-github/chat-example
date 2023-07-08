@@ -20,6 +20,14 @@ type Interactor interface {
 	ListMessage(ctx context.Context, roomID string) ([]*entity.Message, error)
 }
 
+// ここの roomRepository は， pkg/domain/repository/room なので， domain のものである
+// しかし domain ではインタフェースでのプロトタイプ宣言や構造体の定義しかしていない
+// 実装は domain ではなく infra にある
+// しかし，なぜ domain を見て infra の実装が呼び出せるのか？関連付けはどこでやってる？？
+
+// とまあ， handler vs usecase, domain vs infra と，宣言と実装を分けているのはわかった
+// log と ulid は分けてないようだけど(あくまでツール・ユーティリティで変更する未来が見えないからかな)
+
 type interactor struct {
 	ulidGenerator     ulid.ULIDGenerator
 	roomRepository    roomrepository.Repository

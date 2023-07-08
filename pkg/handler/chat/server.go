@@ -35,6 +35,18 @@ func New(logger log.Handler, chatInteractor chat.Interactor) protoconnect.ChatSe
 	}
 }
 
+// request は指定された型(例えば proto.CreateRoomRequest 構造体)である Msg メンバのみが入っている(https://pkg.go.dev/github.com/bufbuild/connect-go#Request)
+// その構造体には GetName などのメソッドが定義されている(proto/proto/chat.pb.go)
+// s.chatInteractor は chat.Interactor のこと(23行目)
+// chat.Interactor とは，importしているが usecase/chat/interactor.go が持つ Interactor インタフェースのこと
+// そのインタフェースでは CreateRoom などの関数がプロトタイプ宣言されている
+// 実装は同ファイルにあるが，未完成な関数もあるので書いていく必要がある．
+
+// これらを実装すると
+// curl localhost:8080/api.ChatService/CreateRoom --header "Content-Type: application/json"  --data '{"name": "roomName"}'
+// などのリクエストが通るようになる
+// evans で call CreateRoom などとしてリクエストを呼び，データを入力するといった，対話的なリクエストも可能である
+
 func (s *server) CreateRoom(ctx context.Context, req *connect.Request[proto.CreateRoomRequest]) (*connect.Response[proto.CreateRoomResponse], error) {
 	room, err := s.chatInteractor.CreateRoom(ctx, req.Msg.GetName())
 	if err != nil {
